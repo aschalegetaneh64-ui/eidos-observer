@@ -60,6 +60,43 @@
     <input placeholder="Whisper a memory..." />
     <button>Record</button>
   </footer>
+<script>
+  const input = document.querySelector("input");
+  const button = document.querySelector("button");
+  const memoryArea = document.getElementById("memory");
 
+  let memories = [];
+
+  button.addEventListener("click", () => {
+    const text = input.value.trim();
+    if (!text) return;
+
+    memories.unshift({
+      text,
+      time: new Date().toLocaleString()
+    });
+
+    input.value = "";
+    render();
+  });
+
+  function render() {
+    if (memories.length === 0) {
+      memoryArea.innerText = "No fragments stored yet.";
+      return;
+    }
+
+    memoryArea.innerHTML = memories
+      .map(
+        m => `
+          <div style="margin-bottom:12px;padding:12px;border-radius:8px;background:#15151d;">
+            <div style="font-size:14px;">${m.text}</div>
+            <div style="font-size:11px;opacity:0.5;margin-top:4px;">${m.time}</div>
+          </div>
+        `
+      )
+      .join("");
+  }
+</script>
 </body>
 </html>
